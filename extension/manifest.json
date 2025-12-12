@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "Fake Review Detector",
+  "version": "0.1.0",
+  "description": "Detect potentially fake reviews on Amazon product pages.",
+  "permissions": [
+    "scripting",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://www.amazon.com/*",
+    "https://www.amazon.*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.amazon.com/*",
+        "https://www.amazon.*/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Fake Review Detector"
+  }
+}
