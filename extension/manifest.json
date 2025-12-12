@@ -9,7 +9,14 @@
   ],
   "host_permissions": [
     "https://www.amazon.com/*",
-    "https://www.amazon.*/*"
+    "https://*.amazon.com/*",
+    "https://www.amazon.co.uk/*",
+    "https://www.amazon.ca/*",
+    "https://www.amazon.de/*",
+    "https://www.amazon.fr/*",
+    "https://www.amazon.co.jp/*",
+    "https://www.amazon.in/*",
+    "https://www.amazon.com.au/*"
   ],
   "background": {
     "service_worker": "background.js"
@@ -18,7 +25,7 @@
     {
       "matches": [
         "https://www.amazon.com/*",
-        "https://www.amazon.*/*"
+        "https://*.amazon.com/*"
       ],
       "js": ["content.js"],
       "run_at": "document_idle"
