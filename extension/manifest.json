@@ -16,7 +16,8 @@
     "https://www.amazon.fr/*",
     "https://www.amazon.co.jp/*",
     "https://www.amazon.in/*",
-    "https://www.amazon.com.au/*"
+    "https://www.amazon.com.au/*",
+    "http://localhost:3000/*"
   ],
   "background": {
     "service_worker": "background.js"
@@ -25,7 +26,8 @@
     {
       "matches": [
         "https://www.amazon.com/*",
-        "https://*.amazon.com/*"
+        "https://*.amazon.com/*",
+        "https://www.amazon.com.au/*"
       ],
       "js": ["content.js"],
       "run_at": "document_idle"
