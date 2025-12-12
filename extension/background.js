@@ -2,7 +2,7 @@
 // forwards them to the Vercel backend /api/analyze
 
 // TODO: Replace with your deployed Vercel URL
-const BACKEND_ANALYZE_URL = "https://YOUR-VERCEL-PROJECT.vercel.app/api/analyze";
+const BACKEND_ANALYZE_URL = "http://localhost:3000/api/analyze/";
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (!message || message.type !== "REVIEWS_EXTRACTED") return;
