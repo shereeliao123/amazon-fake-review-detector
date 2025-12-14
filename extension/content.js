@@ -124,3 +124,34 @@ if (document.readyState === "complete" || document.readyState === "interactive")
     }, 2000);
   });
 }
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (!message || message.type !== "EXTRACT_REVIEWS") {
+    return;
+  }
+
+  console.log("📥 Received EXTRACT_REVIEWS message from popup");
+  const reviews = extractReviews();
+  if (!reviews.length) {
+    console.warn("⚠️ No reviews found on EXTRACT_REVIEWS trigger");
+  } else {
+    console.log(`📨 Sending ${reviews.length} reviews to background script (popup trigger)...`);
+  }
+
+  chrome.runtime.sendMessage(
+    {
+      type: "REVIEWS_EXTRACTED",
+      payload: { reviews },
+    },
+    (response) => {
+      if (chrome.runtime.lastError) {
+        console.error("❌ Error sending reviews from EXTRACT_REVIEWS trigger:", chrome.runtime.lastError);
+      } else {
+        console.log("✅ Reviews sent from EXTRACT_REVIEWS trigger, response:", response);
+      }
+    }
+  );
+
+  sendResponse({ success: true, count: reviews.length });
+  return true;
+});
