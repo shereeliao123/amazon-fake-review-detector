@@ -44,5 +44,3 @@ document.getElementById('extractBtn').addEventListener('click', async () => {
     btn.textContent = 'Extract Reviews';
   }
 });
-
-Then **reload the extension** in Chrome.
