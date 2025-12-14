@@ -36,11 +36,24 @@
         background: #ccc;
         cursor: not-allowed;
       }
+      #cancelBtn:hover {
+        background: #a0410f;
+      }
+      #progress {
+        padding: 8px;
+        background: #f0f0f0;
+        border-radius: 4px;
+        display: none;
+      }
+      #progress.active {
+        display: block;
+      }
       #status {
         margin-top: 8px;
         font-size: 11px;
         color: #666;
         min-height: 16px;
+        padding: 4px 0;
       }
       .success {
         color: #067d62;
@@ -52,9 +65,11 @@
   </head>
   <body>
     <h1>Fake Review Detector</h1>
-    <p>Click to extract all visible reviews on this page</p>
-    <button id="extractBtn">Extract Reviews</button>
+    <p>Extract ALL reviews from this product (opens background tab)</p>
+    <button id="extractAllBtn">Extract ALL Reviews</button>
+    <button id="cancelBtn" style="display: none; background: #c7511f; margin-top: 8px;">Cancel Extraction</button>
     <div id="status"></div>
+    <div id="progress" style="margin-top: 8px; font-size: 11px; color: #666;"></div>
     <script src="popup.js"></script>
   </body>
 </html>

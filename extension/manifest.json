@@ -5,7 +5,9 @@
   "description": "Detect potentially fake reviews on Amazon product pages.",
   "permissions": [
     "scripting",
-    "activeTab"
+    "activeTab",
+    "tabs",
+    "storage"
   ],
   "host_permissions": [
     "https://www.amazon.com/*",
