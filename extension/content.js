@@ -8,8 +8,8 @@ function extractReviews() {
 
   // This targets the review list on typical Amazon product pages.
   // Amazon can change DOM structure, so this is a best-effort starter.
-  const reviewElements = document.querySelectorAll("[id^='customer_review-']");
-  console.log(`📝 Found ${reviewElements.length} review elements`);
+  const reviewElements = document.querySelectorAll("[id^='customer_review-'], [data-hook='review']");
+  console.log(`📝 Found ${reviewElements.length} review elements (including all sections)`);
 
   reviewElements.forEach((el, index) => {
     try {
@@ -34,9 +34,11 @@ function extractReviews() {
       const dateEl = el.querySelector("[data-hook='review-date']");
       const date = dateEl ? dateEl.textContent.trim() : "";
 
+      const section = getReviewSection(el);
+
       if (body || title) {
-        reviews.push({ id, title, body, rating, author, date });
-        console.log(`✅ Extracted review ${index + 1}:`, { id, title: title.substring(0, 30) + "..." });
+        reviews.push({ id, title, body, rating, author, date, section });
+        console.log(`✅ Extracted review ${index + 1} [section: ${section}]:`, { id, title: title.substring(0, 30) + "..." });
       }
     } catch (e) {
       console.error(`❌ Error extracting review ${index}:`, e);
@@ -45,6 +47,42 @@ function extractReviews() {
 
   console.log(`✨ Total reviews extracted: ${reviews.length}`);
   return reviews;
+}
+
+function getReviewSection(reviewElement) {
+  try {
+    // Default when we can't confidently determine section
+    let section = "unknown";
+
+    // Heuristic 1: look upwards for any container mentioning "From other countries"
+    let node = reviewElement;
+    while (node) {
+      if (node.textContent && /from other countries/i.test(node.textContent)) {
+        section = "from_other_countries";
+        break;
+      }
+      node = node.parentElement;
+    }
+
+    if (section !== "unknown") {
+      return section;
+    }
+
+    // Heuristic 2: look for "Top reviews from" (usually the local-country block)
+    node = reviewElement;
+    while (node) {
+      if (node.textContent && /top reviews from/i.test(node.textContent)) {
+        section = "from_your_country";
+        break;
+      }
+      node = node.parentElement;
+    }
+
+    return section;
+  } catch (e) {
+    console.warn("⚠️ Unable to determine review section", e);
+    return "unknown";
+  }
 }
 
 function sendReviews() {
